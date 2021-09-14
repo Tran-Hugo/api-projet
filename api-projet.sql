@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 13, 2021 at 08:27 PM
+-- Generation Time: Sep 14, 2021 at 02:55 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -61,7 +61,8 @@ CREATE TABLE `doctrine_migration_versions` (
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 ('DoctrineMigrations\\Version20210913072735', '2021-09-13 07:27:47', 53),
 ('DoctrineMigrations\\Version20210913073054', '2021-09-13 07:31:24', 73),
-('DoctrineMigrations\\Version20210913074020', '2021-09-13 07:40:29', 196);
+('DoctrineMigrations\\Version20210913074020', '2021-09-13 07:40:29', 196),
+('DoctrineMigrations\\Version20210914134243', '2021-09-14 13:42:55', 146);
 
 -- --------------------------------------------------------
 
@@ -76,17 +77,18 @@ CREATE TABLE `post` (
   `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `updated_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `category_id` int(11) DEFAULT NULL
+  `category_id` int(11) DEFAULT NULL,
+  `online` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`id`, `title`, `slug`, `content`, `created_at`, `updated_at`, `category_id`) VALUES
-(1, 'mon article de test', 'Mon-premier-article', 'Bonjour les gens', '2021-09-13 07:31:44', '2021-09-13 07:31:44', 2),
-(2, 'Mon second article', 'mon-second-article', 'mon contenu', '2021-09-13 12:24:24', '2021-09-13 12:24:24', 1),
-(3, 'post + cat', 'post-avec-cat', 'blabla', '2021-09-13 15:08:18', '2021-09-13 15:08:18', 3);
+INSERT INTO `post` (`id`, `title`, `slug`, `content`, `created_at`, `updated_at`, `category_id`, `online`) VALUES
+(1, 'mon article de test', 'Mon-premier-article', 'Bonjour les gens', '2021-09-13 07:31:44', '2021-09-13 07:31:44', 2, 1),
+(2, 'Mon second article', 'mon-second-article', 'mon contenu', '2021-09-13 12:24:24', '2021-09-13 12:24:24', 1, 0),
+(3, 'post + cat', 'post-avec-cat', 'blabla', '2021-09-13 15:08:18', '2021-09-13 15:08:18', 3, 0);
 
 --
 -- Indexes for dumped tables
