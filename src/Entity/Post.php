@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\PostCountController;
 use App\Controller\PostPublishController;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -27,7 +28,27 @@ use Symfony\Component\Validator\Constraints\Valid;
         'get',
         'post',
         'count'=>[
-            'method'=>'GET'
+            'method'=>'GET',
+            'path'=>'/posts/count',
+            'controller'=>PostCountController::class,
+            'read'=>false,
+            'filters'=>[],
+            'pagination_enabled'=>false,
+            'openapi_context'=>[
+                'summary' => 'Récupère le nombre total d\'article',
+                'parameters' => [
+                    [
+                        'in' => 'query',
+                        'name' => 'online',
+                        'schema' => [
+                            'type' => 'integer',
+                            'maximum' => 1,
+                            'minimum' => 0
+                        ],
+                        'description' => 'Filtre les articles en ligne',
+                    ]
+                ],
+            ]
         ],
     ],
     itemOperations:[
