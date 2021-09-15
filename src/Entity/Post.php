@@ -48,6 +48,19 @@ use Symfony\Component\Validator\Constraints\Valid;
                         'description' => 'Filtre les articles en ligne',
                     ]
                 ],
+                'responses' => [
+                    '200' => [
+                        'description' => 'OK',
+                        'content' => [
+                            'application/json'=>[
+                                'schema'=>[
+                                'type'=>'integer',
+                                'example'=>3 
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ],
     ],

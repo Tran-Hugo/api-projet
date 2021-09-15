@@ -19,4 +19,5 @@ class PostCountController
         }
         return $postRepository->count($conditions);
     }
+    
 }

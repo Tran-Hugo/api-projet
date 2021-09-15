@@ -25,3 +25,11 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Controller\PostCountController:
         tags: [ controller.service_arguments ]
+    
+    App\OpenApi\OpenApiFactory:
+        decorates: 'api_platform.openapi.factory'
+        arguments: ['@App\OpenApi\OpenApiFactory.inner']
+        autoconfigure: false
+    
+    App\DataProvider\DependencyDataProvider:
+        arguments: ['%kernel.project_dir%']
