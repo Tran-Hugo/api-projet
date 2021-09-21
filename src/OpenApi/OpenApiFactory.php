@@ -4,6 +4,7 @@ namespace App\OpenApi;
 
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\OpenApi;
+use ArrayObject;
 
 class OpenApiFactory implements OpenApiFactoryInterface
 {
@@ -19,6 +20,13 @@ class OpenApiFactory implements OpenApiFactoryInterface
                 $openApi->getPaths()->addPath($key, $path->withGet(null));
             }
         }
+
+        $schemas = $openApi->getComponents()->getSecuritySchemes();
+        $schemas['cookieAuth'] = new ArrayObject([
+            'type'=>'apiKey',
+            'in'=>'cookie',
+            'name'=>'PHPSESSID'
+        ]);
         
         return $openApi;
     }
