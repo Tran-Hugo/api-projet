@@ -15,4 +15,9 @@ class SecurityController extends AbstractController
             'roles'=> $user->getRoles()
         ]);
     }
+
+    #[Route('/api/logout', name:'api_logout', methods:['POST'])]
+    public function logout(){
+
+    }
 }

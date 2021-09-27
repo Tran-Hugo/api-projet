@@ -2,19 +2,21 @@
 
 namespace App\Entity;
 
+use App\Controller\MeController;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use App\Controller\RegistrationController;
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\MeController;
-use App\Repository\UserRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 #[ApiResource(
+    security:'is_granted("ROLE_USER")',
     collectionOperations:[
         'me'=>[
             'pagination_enabled'=>false,
@@ -22,8 +24,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'method'=>'get',
             'controller'=> MeController::class,
             'read'=>false,
-            'security'=>'is_granted("ROLE_USER")'
+            'openapi_context' => [
+                'security' => ['cookieAuth' => []]
+            ]
         ],
+        'post'=>[
+            'controller'=>RegistrationController::class
+        ]
     ],
     itemOperations:[
         'get'=>[
@@ -33,6 +40,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'output'=>false
         ]
         ],
+    denormalizationContext:['groups'=>'write:User'],
     normalizationContext:['groups'=>'read:User']
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -48,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    #[Groups(['read:User'])]
+    #[Groups(['read:User','write:User'])]
     private $email;
 
     /**
@@ -61,6 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
+    #[Groups(['write:User'])]
     private $password;
 
     public function getId(): ?int
