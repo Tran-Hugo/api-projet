@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 #[ApiResource(
-    security:'is_granted("ROLE_USER")',
     collectionOperations:[
         'me'=>[
             'pagination_enabled'=>false,
@@ -24,6 +23,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             'method'=>'get',
             'controller'=> MeController::class,
             'read'=>false,
+            'security'=>'is_granted("ROLE_USER")',
             'openapi_context' => [
                 'security' => ['cookieAuth' => []]
             ]
