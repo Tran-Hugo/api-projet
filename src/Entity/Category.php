@@ -44,7 +44,7 @@ class Category
      * @ORM\Column(type="string", length=255)
      */
     #[
-        Groups(["read:Post","write:Post"]),
+        Groups(["read:Post","write:Post",'read:collection']),
         Length(min:3)    
     ]
     private $name;
