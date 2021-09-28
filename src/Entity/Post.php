@@ -21,8 +21,8 @@ use Symfony\Component\Validator\Constraints\Valid;
 #[ApiResource(
     normalizationContext:['groups'=>['read:collection']],
     denormalizationContext:['groups'=> ['write:Post']],
-    paginationItemsPerPage:2,
-    paginationMaximumItemsPerPage:2,
+    paginationItemsPerPage:10,
+    paginationMaximumItemsPerPage:10,
     paginationClientItemsPerPage:true,
     collectionOperations:[
         'get',
@@ -134,7 +134,7 @@ class Post
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="posts", cascade={"persist"})
      */
     #[
-        Groups(['read:item','write:Post']),
+        Groups(['read:item','write:Post','read:collection']),
         Valid()    
     ]
     private $category;
