@@ -1,0 +1,8 @@
+composer require lexik/jwt-authentication-bundle
+
+*NEED OPEN SSL*
+php bin/console lexik:jwt:generate-keypair 
+*NEED OPEN SSL*
+
+configurer security.yaml (suffit de copier)
+https://github.com/lexik/LexikJWTAuthenticationBundle/blob/2.x/Resources/doc/index.md#installation

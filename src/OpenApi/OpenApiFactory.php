@@ -25,10 +25,10 @@ class OpenApiFactory implements OpenApiFactoryInterface
         }
 
         $schemas = $openApi->getComponents()->getSecuritySchemes();
-        $schemas['cookieAuth'] = new ArrayObject([
-            'type'=>'apiKey',
-            'in'=>'cookie',
-            'name'=>'PHPSESSID'
+        $schemas['bearerAuth'] = new ArrayObject([
+            'type'=>'http',
+            'in'=>'bearer',
+            'bearerFormat'=>'JWT'
         ]);
 
         $schemas = $openApi->getComponents()->getSchemas();
