@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 #[ApiResource(
     normalizationContext:['groups'=>['read:collection']],
     denormalizationContext:['groups'=> ['write:Post']],
-    paginationItemsPerPage:2,
+    paginationItemsPerPage:3,
     paginationMaximumItemsPerPage:10,
     paginationClientItemsPerPage:true,
     collectionOperations:[
