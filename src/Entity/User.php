@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             'read'=>false,
             'security'=>'is_granted("ROLE_USER")',
             'openapi_context' => [
-                'security' => ['cookieAuth' => []]
+                'security' => [['bearerAuth'=>[]]]
             ]
         ],
         'post'=>[

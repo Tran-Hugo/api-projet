@@ -27,7 +27,7 @@ class OpenApiFactory implements OpenApiFactoryInterface
         $schemas = $openApi->getComponents()->getSecuritySchemes();
         $schemas['bearerAuth'] = new ArrayObject([
             'type'=>'http',
-            'in'=>'bearer',
+            'scheme'=>'bearer',
             'bearerFormat'=>'JWT'
         ]);
 
