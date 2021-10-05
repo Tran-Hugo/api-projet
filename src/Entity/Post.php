@@ -2,21 +2,25 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\PostCountController;
+use App\Controller\PostImageController;
 use App\Controller\PostPublishController;
-use DateTimeImmutable;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Valid;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
+ * @Vich\Uploadable()
  */
 #[ApiResource(
     normalizationContext:['groups'=>['read:collection']],
@@ -70,6 +74,12 @@ use Symfony\Component\Validator\Constraints\Valid;
         'get'=>[
             'normalization_context' => ['groups'=>['read:collection', "read:item","read:Post"]]
         ],
+        'image'=>[
+            'method'=>'POST',
+            'path'=>'/posts/{id}/image',
+            'controller'=>PostImageController::class,
+            'deserialize'=>false,
+        ],
         'publish'=> [
             'method'=> 'POST',
             'path'=>'/posts/{id}/publish',
@@ -84,7 +94,7 @@ use Symfony\Component\Validator\Constraints\Valid;
                     ]
                 ]
             ]
-        ]
+                        ]
         ]
     ),
     ApiFilter(SearchFilter::class, properties:['id'=>'exact','title'=>'partial'])    ]
@@ -147,6 +157,24 @@ class Post
         ApiProperty(openapiContext:['type'=>'boolean','description'=>'En ligne ou pas ?'])
     ]
     private $online = false;
+
+
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="post_image", fileNameProperty="filePath")
+     */
+    private $file;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $filePath;
+
+    /**
+     * @var string|null
+     */
+    #[Groups('read:collection')]
+    private $fileUrl;
 
     public function __construct()
     {
@@ -239,6 +267,66 @@ class Post
     public function setOnline(bool $online): self
     {
         $this->online = $online;
+
+        return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(?string $filePath): self
+    {
+        $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of file
+     *
+     * @return  File|null
+     */ 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set the value of file
+     *
+     * @param  File|null  $file
+     *
+     * @return  self
+     */ 
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fileUrl
+     *
+     * @return  string|null
+     */ 
+    public function getFileUrl()
+    {
+        return $this->fileUrl;
+    }
+
+    /**
+     * Set the value of fileUrl
+     *
+     * @param  string|null  $fileUrl
+     *
+     * @return  self
+     */ 
+    public function setFileUrl($fileUrl)
+    {
+        $this->fileUrl = $fileUrl;
 
         return $this;
     }
