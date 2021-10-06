@@ -50,7 +50,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="category", cascade={"persist","detach","merge","refresh"})
      */
     private $posts;
 
