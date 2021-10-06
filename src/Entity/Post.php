@@ -31,6 +31,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
     paginationClientItemsPerPage:true,
     collectionOperations:[
         'get',
+        'getAdmin'=>[
+            'method'=>'GET',
+            'path'=>'/posts/admin',
+            'pagination_items_per_page'=>20,
+            "pagination_maximum_items_per_page"=>20
+        ],
         'post',
         'postComplet'=>[
             'method'=>'POST',
@@ -133,7 +139,7 @@ class Post
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['read:item','write:Post'])]
+    #[Groups(['read:item','write:Post','read:collection'])]
     private $content;
 
     /**
