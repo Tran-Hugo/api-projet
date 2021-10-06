@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
 use App\Controller\PostCountController;
 use App\Controller\PostImageController;
+use App\Controller\PostCompletController;
 use App\Controller\PostPublishController;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
@@ -31,6 +32,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
     collectionOperations:[
         'get',
         'post',
+        'postComplet'=>[
+            'method'=>'POST',
+            'path'=>'/posts/new',
+            'controller'=>PostCompletController::class,
+            'deserialize'=>false,
+        ],
         'count'=>[
             'method'=>'GET',
             'path'=>'/posts/count',
