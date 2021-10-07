@@ -35,7 +35,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             'method'=>'GET',
             'path'=>'/posts/admin',
             'pagination_items_per_page'=>20,
-            "pagination_maximum_items_per_page"=>20
+            "pagination_maximum_items_per_page"=>20,
+            'security'=>'is_granted("ROLE_ADMIN")'
         ],
         'post',
         'postComplet'=>[

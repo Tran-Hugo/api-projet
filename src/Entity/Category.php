@@ -15,7 +15,10 @@ use Symfony\Component\Validator\Constraints\Length;
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 #[ApiResource(
-    collectionOperations:['get','post'],
+    collectionOperations:[
+        'get',
+        'post'
+    ],
     itemOperations: [
         'put',
         'patch',
